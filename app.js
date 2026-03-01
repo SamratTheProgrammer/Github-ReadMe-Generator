@@ -438,13 +438,36 @@
     let sidebarOverlay = null;
     $mobileToggle.addEventListener('click', toggleMobileSidebar);
     function toggleMobileSidebar() {
-        const open = $sidebar.classList.toggle('open');
-        if (open) {
-            if (!sidebarOverlay) { sidebarOverlay = document.createElement('div'); sidebarOverlay.className = 'sidebar-overlay'; sidebarOverlay.addEventListener('click', closeMobileSidebar); document.body.appendChild(sidebarOverlay); }
-            sidebarOverlay.classList.add('open');
-        } else if (sidebarOverlay) sidebarOverlay.classList.remove('open');
+        const isOpen = $sidebar.classList.toggle('open');
+        if (isOpen) {
+            $sidebar.classList.remove('closed'); // Ensure it's not hidden by desktop close state
+            $mobileToggle.classList.add('hidden');
+            if (!sidebarOverlay) {
+                sidebarOverlay = document.createElement('div');
+                sidebarOverlay.className = 'sidebar-overlay';
+                sidebarOverlay.addEventListener('click', closeMobileSidebar);
+                document.body.appendChild(sidebarOverlay);
+            }
+            // Small delay to allow CSS transition
+            setTimeout(() => sidebarOverlay.classList.add('open'), 10);
+        } else {
+            closeMobileSidebar();
+        }
     }
-    function closeMobileSidebar() { $sidebar.classList.remove('open'); if (sidebarOverlay) sidebarOverlay.classList.remove('open'); }
+    function closeMobileSidebar() {
+        $sidebar.classList.remove('open');
+        $mobileToggle.classList.remove('hidden');
+        if (sidebarOverlay) {
+            sidebarOverlay.classList.remove('open');
+            // Wait for transition before hiding completely
+            setTimeout(() => {
+                if (!$sidebar.classList.contains('open') && sidebarOverlay.parentNode) {
+                    sidebarOverlay.parentNode.removeChild(sidebarOverlay);
+                    sidebarOverlay = null;
+                }
+            }, 300);
+        }
+    }
 
     /* ── MOBILE TABS ── */
     document.querySelectorAll('.mobile-tab').forEach(tab => {

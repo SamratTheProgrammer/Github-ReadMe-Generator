@@ -39,7 +39,7 @@
 html {
     font-size: 14px;
     overflow: hidden;
-    height: 100%;
+    height: 100dvh;
 }
 
 html.font-small {
@@ -142,12 +142,12 @@ body {
     background: var(--bg-root);
     color: var(--text-primary);
     line-height: 1.6;
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
     overflow: hidden;
-    height: 100%;
+    height: 100dvh;
 }
 
 /* Scrollbar */
@@ -312,7 +312,7 @@ body {
     display: flex;
     flex: 1;
     overflow: hidden;
-    height: calc(100vh - var(--header-h));
+    height: calc(100dvh - var(--header-h));
 }
 
 /* ═══════════════ SIDEBAR ═══════════════ */
@@ -1626,11 +1626,14 @@ body {
     inset: 0;
     z-index: 79;
     background: rgba(0, 0, 0, .4);
-    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s var(--ease);
 }
 
 .sidebar-overlay.open {
-    display: block;
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* ═══════════════ RESPONSIVE ═══════════════ */
@@ -1646,8 +1649,26 @@ body {
 }
 
 @media (max-width: 900px) {
-    .header-center {
+    #app-header {
+        justify-content: flex-start;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+    }
+
+    #app-header::-webkit-scrollbar {
         display: none;
+    }
+
+    .header-left,
+    .header-center,
+    .header-right {
+        flex-shrink: 0;
+        margin-right: var(--sp-4);
+    }
+
+    .header-right {
+        margin-right: 0;
     }
 
     #preview-panel {
@@ -1717,6 +1738,16 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+        opacity: 1;
+        transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), border-color 0.2s, color 0.2s;
+        pointer-events: auto;
+    }
+
+    /* Hide the 3-line nav menu button when the sidebar is open */
+    .mobile-sidebar-toggle.hidden {
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.8);
     }
 
     #editor-panel {
@@ -1756,10 +1787,6 @@ body {
 @media (max-width: 400px) {
     .header-left h1 {
         font-size: .68rem;
-    }
-
-    .select-wrap {
-        display: none;
     }
 
     .tech-grid {
