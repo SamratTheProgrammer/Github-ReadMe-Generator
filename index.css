@@ -1338,6 +1338,14 @@ body {
     font-size: .68rem;
     padding: 3px 8px;
 }
+.btn-lg {
+    font-size: .68rem;
+    font-weight: 600;
+    padding: 10px 15px;
+    border-radius: var(--r-lg);
+    border: none;
+    cursor: pointer;
+}
 
 .btn-primary {
     background: var(--accent);
