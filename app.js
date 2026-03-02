@@ -233,7 +233,7 @@
         const socials = {};
         SOCIAL_PLATFORMS.forEach(p => { socials[p.key] = ''; });
         return {
-            name: '', username: '', bio: '', location: '', company: '', website: '', bannerUrl: '',
+            name: '', username: '', role: '', bio: '', location: '', company: '', website: '', bannerUrl: '',
             resumeLink: '', blogLink: '', customLinks: [],
             socials, currentWork: '', learning: '', askMe: '', funFact: '', pronouns: '',
             techStack: [],
@@ -590,6 +590,7 @@
                 <button class="btn btn-accent btn-sm" id="add-custom-link-btn">+ Add Link</button>
             </div>`;
             case 'profile_about': return `<div class="section-header"><h2>💡 About Me</h2></div>
+            <div class="field-group"><label>🎓 Current Role / Status</label><input class="input" data-profile="role" value="${esc(d.role)}" placeholder="e.g. Student, Full Stack Developer"></div>
             <div class="field-group"><label>🔭 Currently working on</label><input class="input" data-profile="currentWork" value="${esc(d.currentWork)}" placeholder="An open-source project"></div>
             <div class="field-group"><label>🌱 Currently learning</label><input class="input" data-profile="learning" value="${esc(d.learning)}" placeholder="Rust & WASM"></div>
             <div class="field-group"><label>💬 Ask me about</label><input class="input" data-profile="askMe" value="${esc(d.askMe)}" placeholder="React, System Design"></div>
@@ -740,7 +741,7 @@
                 default: if (f.content) md += `## ${sec.label}\n\n${f.content}\n\n`; break;
             }
         });
-        md += '---\n<p align="center">Made with ❤️ using README Generator</p>\n'; return md;
+        md += '---\n<p align="center">Made with ❤️ using <a href="https://samrattheprogrammer.github.io/Github-ReadMe-Generator/">README Generator</a></p>\n'; return md;
     }
 
     function generateProjectCenteredMD() {
@@ -777,7 +778,7 @@
                 default: if (f.content) md += `## ${sec.label}\n\n${f.content}\n\n`; break;
             }
         });
-        md += '</div>\n\n---\n<p align="center">Made with ❤️ using README Generator</p>\n'; return md;
+        md += '</div>\n\n---\n<p align="center">Made with ❤️ using <a href="https://samrattheprogrammer.github.io/Github-ReadMe-Generator/">README Generator</a></p>\n'; return md;
     }
 
     function generateProjectMinimalMD() {
@@ -825,9 +826,12 @@
         }
 
         const about = [];
+        if (d.role) about.push(`🎓 I'm currently a **${d.role}**`);
         if (d.currentWork) about.push(`🔭 Working on **${d.currentWork}**`);
         if (d.learning) about.push(`🌱 Learning **${d.learning}**`);
         if (d.askMe) about.push(`💬 Ask me about **${d.askMe}**`);
+        if (d.location) about.push(`🌍 Based in **${d.location}**`);
+        if (d.company) about.push(`🏢 Working at **${d.company}**`);
         if (d.website) about.push(`🌐 Portfolio: **[${d.website}](${d.website})**`);
         if (d.resumeLink) about.push(`📄 Resume: **[View Resume](${d.resumeLink})**`);
         if (d.blogLink) about.push(`✍️ Blog: **[Read Blog](${d.blogLink})**`);
@@ -871,7 +875,7 @@
             });
             md += `</p>\n\n`;
         }
-        md += '---\n<p align="center">Generated with \u2764\ufe0f using <a href="https://github.com">README Generator</a></p>\n';
+        md += '---\n<p align="center">Generated with \u2764\ufe0f using <a href="https://samrattheprogrammer.github.io/Github-ReadMe-Generator/">README Generator</a></p>\n';
         return md;
     }
 
@@ -882,9 +886,12 @@
             if (d.bio) md += `>${d.bio}\n\n`;
         }
         const about = [];
+        if (d.role) about.push(`🎓 I'm a [${d.role}]()`);
         if (d.currentWork) about.push(`🔭 Working on [${d.currentWork}]()`);
         if (d.learning) about.push(`🌱 Learning [${d.learning}]()`);
         if (d.askMe) about.push(`💬 Ask me about [${d.askMe}]()`);
+        if (d.location) about.push(`🌍 Based in ${d.location}`);
+        if (d.company) about.push(`🏢 Working at ${d.company}`);
         if (d.website) about.push(`🌐 [Portfolio](${d.website})`);
         if (d.resumeLink) about.push(`📄 [Resume](${d.resumeLink})`);
         if (d.blogLink) about.push(`✍️ [Blog](${d.blogLink})`);
@@ -921,7 +928,7 @@
             if (d.showActivity) md += `<p><img src="https://github-readme-activity-graph.vercel.app/graph?username=${u}&theme=${th}&hide_border=true&area=true" width="100%"></p>\n\n`;
         }
 
-        md += '---\nGenerated using README Generator\n'; return md;
+        md += '---\nGenerated using [README Generator](https://samrattheprogrammer.github.io/Github-ReadMe-Generator/)\n'; return md;
     }
 
     function generateProfileCardMD() {
@@ -934,9 +941,12 @@
         let cols = '';
 
         const about = [];
+        if (d.role) about.push(`<li>🎓 I'm currently a **${d.role}**</li>`);
         if (d.currentWork) about.push(`<li>🔭 Working on **${d.currentWork}**</li>`);
         if (d.learning) about.push(`<li>🌱 Learning **${d.learning}**</li>`);
         if (d.askMe) about.push(`<li>💬 Ask me about **${d.askMe}**</li>`);
+        if (d.location) about.push(`<li>🌍 Based in **${d.location}**</li>`);
+        if (d.company) about.push(`<li>🏢 Working at **${d.company}**</li>`);
         if (d.website) about.push(`<li>🌐 Portfolio: <a href="${d.website}">${d.website}</a></li>`);
         if (d.resumeLink) about.push(`<li>📄 <a href="${d.resumeLink}">Resume</a></li>`);
         if (d.blogLink) about.push(`<li>✍️ <a href="${d.blogLink}">Blog</a></li>`);
@@ -995,7 +1005,7 @@
             if (d.showActivity) md += `<p align="center"><img src="https://github-readme-activity-graph.vercel.app/graph?username=${u}&theme=${th}&hide_border=true&area=true"/></p>\n\n`;
             if (d.showVisitors) md += `\n<p align="center"><img src="https://komarev.com/ghpvc/?username=${u}&label=Profile%20views&color=blueviolet&style=flat" alt="views"/></p>\n`;
         }
-        md += '---\n<p align="center">Generated with \u2764\ufe0f using <a href="https://github.com">README Generator</a></p>\n'; return md;
+        md += '---\n<p align="center">Generated with \u2764\ufe0f using <a href="https://samrattheprogrammer.github.io/Github-ReadMe-Generator/">README Generator</a></p>\n'; return md;
     }
 
     /* ── PREVIEW + TOC ── */
